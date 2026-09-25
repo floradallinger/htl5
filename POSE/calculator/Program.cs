@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace calculator;
+namespace Calculator;
 
 class Program
 {
