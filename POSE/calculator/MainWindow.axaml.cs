@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using Avalonia.Controls;
@@ -13,6 +14,7 @@ public partial class MainWindow : Window
     public List<string> _calcsigns = new List<string>();
     private string _newNumber = "";
     public string _result = "";
+    private bool _commaAllowed = true;
     
     public MainWindow()
     {
@@ -38,10 +40,17 @@ public partial class MainWindow : Window
         if (sender is Button btn && btn.Content != null && _newNumber != "")
         {
             string value = btn.Content.ToString()!;
-            _numbers.Add(double.Parse(_newNumber));
+
+            if (_newNumber.EndsWith("."))
+            {
+                _newNumber += "0";
+            }
+            
+            _numbers.Add(double.Parse(_newNumber, CultureInfo.InvariantCulture));
             _calcsigns.Add(value);
             _calculation += value;
             _newNumber = "";
+            _commaAllowed = true;
             
             UpdateCalcDisplay();
         }
@@ -54,13 +63,31 @@ public partial class MainWindow : Window
             _calcsigns.Clear();
             _numbers.Clear();
             _calculation = "";
+            _result = "";
             UpdateCalcDisplay();
+            UpdateResultDisplay();
         }
     }
 
     private void HandleCommaBtnClick(object? sender, RoutedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        if (sender is Button btn && btn.Content != null && _commaAllowed)
+        {
+            _commaAllowed = false;
+            var value = "";
+            if (_newNumber.Length < 1)
+            {
+                value = "0.";
+            }
+            else
+            {
+                value += ".";
+            }
+
+            _newNumber += value;
+            _calculation += value;
+        }
+
     }
 
     private void HandleEqualBtnClick(object? sender, RoutedEventArgs e)
