@@ -6,59 +6,81 @@
         x:Class="Calculator.MainWindow"
         Title="Calculator">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ToggleSwitch Name="ModeToggleSwitch"
+                      Content="Expression Evaluation"
+                      IsCheckedChanged="OnModeChanged"
+                      HorizontalAlignment="Center" />
+
+        <StackPanel Name="ComplexMode" HorizontalAlignment="Center">
+
+        </StackPanel>
+
+        <StackPanel Name="EasyMode" IsVisible="True" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Name="CalcDisplay" HorizontalAlignment="Center"></TextBlock>
-            
+
             <Grid Name="ButtonGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <Button Content="7" Grid.Row="0" Grid.Column="0" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="8" Grid.Row="0" Grid.Column="1" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="9" Grid.Row="0" Grid.Column="2" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="/" Grid.Row="0" Grid.Column="3" Width="50" Height="50" Margin="2"
-                    Click="HandleCalcSignBtnClick" />
-            <Button Content="*" Grid.Row="0" Grid.Column="4" Width="50" Height="50" Margin="2"
-                    Click="HandleCalcSignBtnClick" />
+                <Button Content="7" Grid.Row="0" Grid.Column="0" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="8" Grid.Row="0" Grid.Column="1" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="9" Grid.Row="0" Grid.Column="2" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="/" Grid.Row="0" Grid.Column="3" Width="50" Height="50" Margin="2"
+                        Click="HandleCalcSignBtnClick" />
+                <Button Content="*" Grid.Row="0" Grid.Column="4" Width="50" Height="50" Margin="2"
+                        Click="HandleCalcSignBtnClick" />
 
-            <Button Content="4" Grid.Row="1" Grid.Column="0" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="5" Grid.Row="1" Grid.Column="1" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="6" Grid.Row="1" Grid.Column="2" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="+" Grid.Row="1" Grid.Column="3" Width="50" Height="50" Margin="2"
-                    Click="HandleCalcSignBtnClick" />
-            <Button Content="-" Grid.Row="1" Grid.Column="4" Width="50" Height="50" Margin="2"
-                    Click="HandleCalcSignBtnClick" />
+                <Button Content="4" Grid.Row="1" Grid.Column="0" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="5" Grid.Row="1" Grid.Column="1" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="6" Grid.Row="1" Grid.Column="2" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="+" Grid.Row="1" Grid.Column="3" Width="50" Height="50" Margin="2"
+                        Click="HandleCalcSignBtnClick" />
+                <Button Content="-" Grid.Row="1" Grid.Column="4" Width="50" Height="50" Margin="2"
+                        Click="HandleCalcSignBtnClick" />
 
-            <Button Content="1" Grid.Row="2" Grid.Column="0" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="2" Grid.Row="2" Grid.Column="1" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="3" Grid.Row="2" Grid.Column="2" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="Clear" Foreground="Red" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Width="104"
-                    Height="50" Margin="2" Click="HandleClearBtnClick" />
+                <Button Content="1" Grid.Row="2" Grid.Column="0" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="2" Grid.Row="2" Grid.Column="1" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="3" Grid.Row="2" Grid.Column="2" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="Clear" Foreground="Red" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Width="104"
+                        Height="50" Margin="2" Click="HandleClearBtnClick" />
 
-            <Button Content="0" Grid.Row="3" Grid.Column="0" Width="50" Height="50" Margin="2"
-                    Click="HandleNumberBtnClick" />
-            <Button Content="." Grid.Row="3" Grid.Column="1" Width="50" Height="50" Margin="2"
-                    Click="HandleCommaBtnClick" />
-            <Button Content="=" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Width="158" Height="50" Margin="2"
-                    Click="HandleEqualBtnClick" />
+                <Button Content="0" Grid.Row="3" Grid.Column="0" Width="50" Height="50" Margin="2"
+                        Click="HandleNumberBtnClick" />
+                <Button Content="." Grid.Row="3" Grid.Column="1" Width="50" Height="50" Margin="2"
+                        Click="HandleCommaBtnClick" />
+                <Button Content="=" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Width="158" Height="50" Margin="2"
+                        Click="HandleEqualBtnClick" />
+            </Grid>
+
+        </StackPanel>
+
+        <Grid Name="ExpressionPanel" ColumnDefinitions="*, Auto" IsVisible="False" >
+            <TextBox Name="ExpressionInput" Grid.Column="0" Watermark="Enter Expression..." />
+            <Button Content="Evaluate" Grid.Column="1" Click="HandleEvaluateBtnClick" />
         </Grid>
-            <TextBlock Name="ResultDisplay" HorizontalAlignment="Center"></TextBlock>
-            
+
+        <Grid ColumnDefinitions="*, Auto">
+            <TextBlock Name="ResultDisplay" Grid.Column="0" FontSize="20" VerticalAlignment="Center" />
+            <Slider Name="PrecisionSlider" Grid.Column="1" Width="150"
+                    Minimum="0" Maximum="10" Value="6" IsSnapToTickEnabled="True" TickFrequency="1"
+                    ValueChanged="OnPrecisionChanged" />
+        </Grid>
     </StackPanel>
 
 

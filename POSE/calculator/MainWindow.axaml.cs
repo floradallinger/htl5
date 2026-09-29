@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 
 namespace Calculator;
@@ -14,6 +15,7 @@ public partial class MainWindow : Window
     public List<string> _calcsigns = new List<string>();
     private string _newNumber = "";
     public string _result = "";
+    private double? _rawNumericResult = null;
     private bool _commaAllowed = true;
     
     public MainWindow()
@@ -132,5 +134,27 @@ public partial class MainWindow : Window
     private void UpdateResultDisplay()
     {
         ResultDisplay.Text = $"{_result}";
+    }
+
+    private void OnModeChanged(object? sender, RoutedEventArgs e)
+    {
+        bool isComplexMode = ModeToggleSwitch.IsChecked ?? false;
+
+        EasyMode.IsVisible = !isComplexMode;
+        ComplexMode.IsVisible = isComplexMode;
+        
+        _result = "";
+        _rawNumericResult = null;
+        UpdateResultDisplay();
+    }
+
+    private void HandleEvaluateBtnClick(object? sender, RoutedEventArgs e)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void OnPrecisionChanged(object? sender, RangeBaseValueChangedEventArgs e)
+    {
+        throw new System.NotImplementedException();
     }
 }
