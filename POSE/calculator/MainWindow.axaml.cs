@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices.JavaScript;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using NCalc;
 
 namespace Calculator;
 
@@ -148,13 +148,43 @@ public partial class MainWindow : Window
         UpdateResultDisplay();
     }
 
+    private void FormatAndDisplayResult()
+    {
+        if (_rawNumericResult.HasValue)
+        {
+            int decimals = (int)PrecisionSlider.Value;
+            _result = Math.Round(_rawNumericResult.Value, decimals)
+                .ToString($"F{decimals}", CultureInfo.InvariantCulture);
+            UpdateResultDisplay();
+        }
+    }
+
     private void HandleEvaluateBtnClick(object? sender, RoutedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        string expressionString = ExpressionInput.Text ?? "";
+        if (string.IsNullOrWhiteSpace(expressionString)) return;
+
+        try
+        {
+            var expr = new Expression(expressionString);
+
+            object evalResult = expr.Evaluate();
+
+            if (evalResult != null)
+            {
+                _rawNumericResult = Convert.ToDouble(evalResult, CultureInfo.InvariantCulture);
+                FormatAndDisplayResult();
+            }
+        }
+        catch (Exception)
+        {
+            _result = "Error";
+            UpdateResultDisplay();
+        }
     }
 
     private void OnPrecisionChanged(object? sender, RangeBaseValueChangedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        FormatAndDisplayResult();
     }
 }

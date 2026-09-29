@@ -7,12 +7,16 @@
         Title="Calculator">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <ToggleSwitch Name="ModeToggleSwitch"
-                      Content="Expression Evaluation"
                       IsCheckedChanged="OnModeChanged"
-                      HorizontalAlignment="Center" />
+                      HorizontalAlignment="Center"
+                      OffContent="Expression Evaluation"
+                      OnContent="Expression Evaluation"/>
 
-        <StackPanel Name="ComplexMode" HorizontalAlignment="Center">
-
+        <StackPanel Name="ComplexMode" HorizontalAlignment="Center" IsVisible="False">
+                <Grid Name="ExpressionPanel" ColumnDefinitions="*, Auto"  >
+                        <TextBox Name="ExpressionInput" Grid.Column="0" Watermark="Enter Expression..." />
+                        <Button Content="Evaluate" Grid.Column="1" Click="HandleEvaluateBtnClick" />
+                </Grid>
         </StackPanel>
 
         <StackPanel Name="EasyMode" IsVisible="True" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -70,10 +74,7 @@
 
         </StackPanel>
 
-        <Grid Name="ExpressionPanel" ColumnDefinitions="*, Auto" IsVisible="False" >
-            <TextBox Name="ExpressionInput" Grid.Column="0" Watermark="Enter Expression..." />
-            <Button Content="Evaluate" Grid.Column="1" Click="HandleEvaluateBtnClick" />
-        </Grid>
+        
 
         <Grid ColumnDefinitions="*, Auto">
             <TextBlock Name="ResultDisplay" Grid.Column="0" FontSize="20" VerticalAlignment="Center" />
