@@ -7,14 +7,21 @@ namespace ColorPicker.ViewModels;
 public class ColorDisplayControlViewModel(ColorData data, bool overlayHex) : ViewModelBase
 {
     // TODO
+    private ColorData _data = data;
 
-    public Brush Color => throw new NotImplementedException();
-    public Brush HexOverlayColor => throw new NotImplementedException();
-    public string HexOverlay => throw new NotImplementedException();
+    public Brush Color => new SolidColorBrush(_data.Color);
+    public Brush HexOverlayColor => new SolidColorBrush(GetContrastingColor(_data.Color));
+    public string HexOverlay => overlayHex ? _data.Hex : string.Empty;
 
     public void Refresh(ColorData? newData = null)
     {
-        throw new NotImplementedException();
+        if (newData is not null)
+        {
+            _data = newData;
+        }
+        OnPropertyChanged(nameof(Color));
+        OnPropertyChanged(nameof(HexOverlayColor));
+        OnPropertyChanged(nameof(HexOverlay));
     }
 
     private static Color GetContrastingColor(Color background)
