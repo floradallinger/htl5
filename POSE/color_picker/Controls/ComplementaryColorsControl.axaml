@@ -11,9 +11,9 @@
         <vm:DesignComplementaryColorsControlViewModel />
     </Design.DataContext>
     
-    <Grid>
-        <controls:ColorDisplayControl DataContext="{Binding FirstComplementColor}"></controls:ColorDisplayControl>
-        <controls:ColorDisplayControl DataContext="{Binding SecondComplementColor}"></controls:ColorDisplayControl>
-        <controls:ColorDisplayControl DataContext="{Binding ThirdComplementColor}"></controls:ColorDisplayControl>
+    <Grid RowDefinitions="*,*,*" RowSpacing="30" Margin="3">
+        <controls:ColorDisplayControl Grid.Row="0" DataContext="{Binding FirstComplementColor}"></controls:ColorDisplayControl>
+        <controls:ColorDisplayControl Grid.Row="1" DataContext="{Binding SecondComplementColor}"></controls:ColorDisplayControl>
+        <controls:ColorDisplayControl Grid.Row="2" DataContext="{Binding ThirdComplementColor}"></controls:ColorDisplayControl>
     </Grid>
 </UserControl>
