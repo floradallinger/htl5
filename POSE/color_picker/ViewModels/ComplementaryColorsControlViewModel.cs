@@ -15,9 +15,19 @@ public class ComplementaryColorsControlViewModel : ViewModelBase, IRecipient<Col
         _colorData = colorData;
 
         // TODO
+        var complementaryColors = GetSplitComplements(colorData.Color);
+        FirstComplementColor = new ColorDisplayControlViewModel(ColorData.FromColor(complementaryColors[0]), true);
+        SecondComplementColor = new ColorDisplayControlViewModel(ColorData.FromColor(complementaryColors[1]), true);
+        ThirdComplementColor = new ColorDisplayControlViewModel(ColorData.FromColor(complementaryColors[2]), true);
+
+        IsActive = true;
     }
 
     // TODO
+    
+    public ColorDisplayControlViewModel FirstComplementColor { get; }
+    public ColorDisplayControlViewModel SecondComplementColor { get; }
+    public ColorDisplayControlViewModel ThirdComplementColor { get; }
 
     private static Color[] GetSplitComplements(Color baseColor)
     {
@@ -100,6 +110,14 @@ public class ComplementaryColorsControlViewModel : ViewModelBase, IRecipient<Col
         public double Hue => hue;
         public double Saturation => saturation;
         public double Value => value;
+    }
+
+    public void Receive(ColorDataChanged message)
+    {
+        var complementaryColors = GetSplitComplements(_colorData.Color);
+        FirstComplementColor.Refresh(ColorData.FromColor(complementaryColors[0]));
+        SecondComplementColor.Refresh(ColorData.FromColor(complementaryColors[1]));
+        ThirdComplementColor.Refresh(ColorData.FromColor(complementaryColors[2]));
     }
 }
 
