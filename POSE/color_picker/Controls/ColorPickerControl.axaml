@@ -7,5 +7,43 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:ColorPickerControlViewModel"
              x:Class="ColorPicker.Controls.ColorPickerControl">
-    <SelectableTextBlock></SelectableTextBlock>
+    <Design.DataContext>
+        <vm:DesignColorPickerControlViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="*,Auto" RowSpacing="15" Margin="5">
+        <controls:ColorDisplayControl Grid.Row="0" Margin="10,10,10,0" DataContext="{Binding ColorDisplay}" />
+        <Grid Grid.Row="1" ColumnDefinitions="30,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto"
+              ColumnSpacing="15" Margin="5,0,0,0">
+            <Grid.Styles>
+                <Style Selector="TextBlock, SelectableTextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+                <Style Selector="NumericUpDown">
+                    <Setter Property="Minimum" Value="0" />
+                    <Setter Property="Maximum" Value="255" />
+                    <Setter Property="Increment" Value="1" />
+                    <Setter Property="FormatString" Value="0" />
+                    <Setter Property="ParsingNumberStyle" Value="Integer" />
+                    <Setter Property="Width" Value="120" />
+                </Style>
+            </Grid.Styles>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="R" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="G" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="B" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="A" />
+
+            <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Red}" />
+            <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Green}" />
+            <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Blue}" />
+            <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Alpha}" />
+
+            <SelectableTextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Hex}" Tapped="HandleTextSelection" />
+            <SelectableTextBlock Grid.Row="1" Grid.Column="2" Text="{Binding RGBA}" Tapped="HandleTextSelection" />
+
+            <Button Grid.Row="2" Grid.Column="2" Grid.RowSpan="2" Command="{Binding RandomizeColorCommand}"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">Random</Button>
+        </Grid>
+    </Grid>
 </UserControl>

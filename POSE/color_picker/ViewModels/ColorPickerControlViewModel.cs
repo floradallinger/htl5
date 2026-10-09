@@ -28,7 +28,7 @@ public partial class ColorPickerControlViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(Hex))]
     private byte _alpha;
     
-    public ColorDisplayControlViewModel colorDisplay { get; }
+    public ColorDisplayControlViewModel ColorDisplay { get; }
     public string Hex => _colorData?.Hex ?? string.Empty;
     public string RGBA => _colorData.Rgba;
 
@@ -41,7 +41,7 @@ public partial class ColorPickerControlViewModel : ViewModelBase
         _blue = colorData.Blue;
         _alpha = colorData.Alpha;
         
-        colorDisplay = new ColorDisplayControlViewModel(_colorData, false);
+        ColorDisplay = new ColorDisplayControlViewModel(_colorData, false);
     }
 
     // TODO
@@ -68,8 +68,17 @@ public partial class ColorPickerControlViewModel : ViewModelBase
 
     private void NotifyColorChange()
     {
-        colorDisplay.Refresh();
+        ColorDisplay.Refresh();
         Messenger.Send(new ColorDataChanged());
+    }
+    
+    [RelayCommand]
+    private void RandomizeColor()
+    {
+        Red = (byte) Random.Shared.Next(256);
+        Green = (byte) Random.Shared.Next(256);
+        Blue = (byte) Random.Shared.Next(256);
+        Alpha = (byte) Random.Shared.Next(128, 256); 
     }
 }
 
