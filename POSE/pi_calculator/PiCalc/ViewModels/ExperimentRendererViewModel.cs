@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
+using PiCalc.Controls;
 
 namespace PiCalc.ViewModels;
 
@@ -14,19 +16,21 @@ namespace PiCalc.ViewModels;
 public partial class ExperimentRendererViewModel : ViewModelBase
 {
     // TODO
-
+    private readonly ConcurrentDictionary<(int X, int Y), int> _dots = new();
+    
     /// <summary>
     ///     Creates a new instance of the <see cref="ExperimentRendererViewModel" /> class
     /// </summary>
     public ExperimentRendererViewModel()
     {
         // TODO
+        Clear();
     }
 
     /// <summary>
     ///     A collection of dots to render, each represented by its location and color
     /// </summary>
-    [ObservableProperty]
+    [ObservableProperty]    
     public partial IReadOnlyCollection<BitmapDot> RenderDots { get; set; }
 
     /// <summary>
@@ -36,6 +40,8 @@ public partial class ExperimentRendererViewModel : ViewModelBase
     public void Clear()
     {
         // TODO
+        _dots.Clear();
+        RenderDots = new List<BitmapDot>();
     }
 
     /// <summary>
@@ -45,6 +51,9 @@ public partial class ExperimentRendererViewModel : ViewModelBase
     public void RenderResults()
     {
         // TODO
+        RenderDots = _dots.Select(d 
+                                      => new BitmapDot(d.Key.X / 1000f, d.Key.Y / 1000f, d.Value))
+                          .ToList();
     }
 
     /// <summary>
@@ -65,6 +74,8 @@ public partial class ExperimentRendererViewModel : ViewModelBase
         var colorInt = (c.A << 24) | (c.R << 16) | (c.G << 8) | c.B;
 
         // TODO
+        var key = ((int)Math.Round(x * 1000),  (int)Math.Round(y * 1000));
+        _dots[key] = colorInt;
     }
 
     /// <summary>
