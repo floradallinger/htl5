@@ -37,6 +37,40 @@ internal sealed class PiCalculation(IRandomProvider random) : IPiCalculation
     {
         // TODO
         
+        long reportInterval = Math.Max(1, experiments / 100);
+        var pointsInside = 0L;
+
+        double[] xValues = [];
+        double[] yValues = [];
+        bool[] isInsideCircle = [];
+        
+        for (int i = 0; i < experiments; i++)
+        {
+            if (i % 420 == 0)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+            
+            var (x, y) = random.NextDoublePair();
+            bool isInCircle = x * x + y * y <= 1;
+            xValues[i] = x;
+            yValues[i] = y;
+            isInsideCircle[i] = isInCircle;
+            
+            if (isInCircle)
+            {
+                pointsInside++;
+            }
+            
+            experimentResultReport?.Invoke(xValues, yValues, isInsideCircle);
+
+            if ((i + 1) % reportInterval == 0)
+            {
+                progressReport?.Invoke(i + 1); 
+            }
+        }
+
+        return (double)pointsInside / experiments * 4D;
     }
 }
 
