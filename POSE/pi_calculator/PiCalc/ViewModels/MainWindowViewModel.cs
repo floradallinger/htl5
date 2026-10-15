@@ -27,8 +27,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     
     public ExperimentRendererViewModel RendererViewModel { get; } = new();
     
-    public int MaxThreads = Environment.ProcessorCount;
-    public int MinThreads = 1;
+    public int MaxThreads { get; } = Environment.ProcessorCount;
+    public int MinThreads { get; } = 1;
 
     [ObservableProperty]
     public partial int Threads { get; set; }
@@ -50,9 +50,11 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ToggleEnabled))]
-    public partial bool IsRunning {get; set;}
-    
-    private bool ToggleEnabled => !IsRunning;
+    [NotifyCanExecuteChangedFor(nameof(StartCommand))]
+    [NotifyCanExecuteChangedFor(nameof(StopCommand))]
+    public partial bool IsRunning { get; set; }
+
+    public bool ToggleEnabled => !IsRunning; 
     
     public string ExperimentLabels => Pluralize("Experiment", Experiments);
     public string ThreadLabels => Pluralize("Thread", Threads);
@@ -78,7 +80,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         ElapsedTimeText = FormatElapsed(TimeSpan.Zero);
     }
 
-    private static string FormatElapsed(TimeSpan t) =>  t.ToString(@"hh\:mm\:ss\.fff");
+    private static string FormatElapsed(TimeSpan t) =>  t.ToString(@"hh\:mm\:ss\:fff");
 
     // TODO
 

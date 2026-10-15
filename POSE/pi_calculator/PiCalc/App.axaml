@@ -1,15 +1,53 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:PiCalc.ViewModels"
              x:Class="PiCalc.App"
              xmlns:local="using:PiCalc"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+
+    <Window xmlns="https://github.com/avaloniaui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:vm="using:PiCalc.ViewModels"
+            x:DataType="vm:MainWindowViewModel"
+            Title="PiCalc">
+
+        <Design.DataContext>
+            <vm:DesignMainWindowViewModel />
+        </Design.DataContext>
+
+        <StackPanel>
+            <TextBlock>
+                <Run Text="Running " />
+                <Run Text="{Binding Experiments}" />
+                <Run Text="{Binding ExperimentLabels}" />
+            </TextBlock>
+            <NumericUpDown Value="{Binding Experiments}" Minimum="1" IsEnabled="{Binding ToggleEnabled}" />
+            <Slider Minimum="{Binding MinThreads}" Maximum="{Binding MaxThreads}"
+                    Value="{Binding Threads}" IsEnabled="{Binding ToggleEnabled}" />
+            <TextBlock Text="{Binding Threads}" />
+            <TextBlock Text="{Binding ThreadLabels}" />
+
+            <ToggleSwitch Content="Progress" IsChecked="{Binding ProgressReporting}" IsEnabled="{Binding ToggleEnabled}" />
+            <ToggleSwitch Content="Render results" IsChecked="{Binding ResultRendering}" IsEnabled="{Binding ToggleEnabled}" />
+            <ToggleSwitch Content="Vectorized" IsChecked="{Binding VectorizedCalculation}" IsEnabled="{Binding ToggleEnabled}" />
+
+            <ProgressBar Minimum="0" Maximum="1" Value="{Binding Progress}" />
+            <TextBlock Text="{Binding ResultText}" />
+            <TextBlock Text="{Binding ElapsedTimeText}" />
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="Start" Command="{Binding StartCommand}" />
+                <Button Content="Stop" Command="{Binding StopCommand}" />
+            </StackPanel>
+        </StackPanel>
+    </Window>
 </Application>
