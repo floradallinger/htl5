@@ -113,6 +113,21 @@ internal sealed class PuppyService(IUnitOfWork uow, IDateTimeProvider dateTimePr
         AdoptPuppyAsync(int puppyId, string adopterName)
     {
         // TODO
+        var puppie = await uow.PuppyRepository.GetByIdAsync(puppyId);
+        if (puppie == null)
+        {
+            return new NotFound();
+        }
+
+        puppie.AdoptedBy = adopterName;
+        var now = dateTimeProvider.GetLocalDate();
+        puppie.DateAdopted = now;
+        await uow.SaveChangesAsync();
         
+        logger.LogInformation("Dog with id {dogId} was successfully adopted by {adopter} at {date}", 
+                              puppyId, adopterName, now);
+        await DelayAsync();
+        
+        return new Success<LocalDate>(now);
     }
 }
