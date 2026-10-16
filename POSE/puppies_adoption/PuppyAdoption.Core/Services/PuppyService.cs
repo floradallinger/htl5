@@ -109,7 +109,18 @@ internal sealed class PuppyService(IUnitOfWork uow, IDateTimeProvider dateTimePr
     public async ValueTask<OneOf<Success, NotFound>> DeletePuppyAsync(int puppyId)
     {
         // TODO
+        var puppie = await uow.PuppyRepository.GetByIdAsync(puppyId);
+        if (puppie == null || puppie.AdoptedBy != string.Empty)
+        {
+            return new NotFound();
+        }
+
+        uow.PuppyRepository.Remove(puppie);
+        await uow.SaveChangesAsync();
         
+        await DelayAsync();
+        
+        return new Success();
     }
 
     public async ValueTask<OneOf<Success<LocalDate>, NotFound, IPuppyService.AlreadyAdopted>>
