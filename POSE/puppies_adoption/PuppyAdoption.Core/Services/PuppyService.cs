@@ -72,8 +72,12 @@ internal sealed class PuppyService(IUnitOfWork uow, IDateTimeProvider dateTimePr
     public async ValueTask<IReadOnlyCollection<PuppyInformation>> GetAllPuppiesAsync(Shelter shelter)
     {
         // TODO
-        await ValueTask.CompletedTask;
-        throw new NotImplementedException();
+        var puppies = await uow.PuppyRepository.GetAllAsync(shelter);
+
+        return puppies
+                                                      .Select(p => new PuppyInformation(p.Id, p.Name, p.Adopted))
+                                                      .ToList();
+        
     }
 
     public async ValueTask<Puppy> AdmitPuppyAsync(Shelter shelter, string name, string breed,
