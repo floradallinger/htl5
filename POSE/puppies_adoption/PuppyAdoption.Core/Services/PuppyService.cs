@@ -96,8 +96,10 @@ internal sealed class PuppyService(IUnitOfWork uow, IDateTimeProvider dateTimePr
     public async ValueTask<OneOf<Puppy, NotFound>> GetPuppyByIdAsync(int puppyId)
     {
         // TODO
-        await ValueTask.CompletedTask;
-        throw new NotImplementedException();
+        var puppie =  await uow.PuppyRepository.GetByIdAsync(puppyId);
+        
+
+        return puppie != null ? puppie : new NotFound();
     }
 
     public async ValueTask<OneOf<Success, NotFound>> DeletePuppyAsync(int puppyId)
@@ -111,7 +113,6 @@ internal sealed class PuppyService(IUnitOfWork uow, IDateTimeProvider dateTimePr
         AdoptPuppyAsync(int puppyId, string adopterName)
     {
         // TODO
-        await ValueTask.CompletedTask;
-        throw new NotImplementedException();
+        
     }
 }
