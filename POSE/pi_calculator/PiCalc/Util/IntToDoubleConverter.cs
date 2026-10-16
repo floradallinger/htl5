@@ -20,7 +20,7 @@ internal sealed class IntToDoubleConverter : IValueConverter
     /// <returns>The converted or a fallback value </returns>
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
         // TODO
-        throw new NotImplementedException();
+        value?.GetType() == typeof(int) ? (double)value : 0D;
 
     /// <summary>
     ///     Converts a <see cref="double" /> back to an <see cref="int" />.
@@ -33,5 +33,5 @@ internal sealed class IntToDoubleConverter : IValueConverter
     /// <returns>The converted or a fallback value </returns>
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
         // TODO
-        throw new NotImplementedException();
+        value?.GetType() == typeof(double) ? (int)value : 0F;
 }

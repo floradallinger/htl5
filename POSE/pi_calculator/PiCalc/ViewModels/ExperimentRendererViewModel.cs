@@ -24,6 +24,7 @@ public partial class ExperimentRendererViewModel : ViewModelBase
     public ExperimentRendererViewModel()
     {
         // TODO
+        _dots = new();
         Clear();
     }
 
@@ -52,8 +53,7 @@ public partial class ExperimentRendererViewModel : ViewModelBase
     {
         // TODO
         RenderDots = _dots.Select(d 
-                                      => new BitmapDot(d.Key.X / 1000f, d.Key.Y / 1000f, d.Value))
-                          .ToList();
+            => new BitmapDot(d.Key.X / 1000f, d.Key.Y / 1000f, d.Value)).ToList();
     }
 
     /// <summary>
