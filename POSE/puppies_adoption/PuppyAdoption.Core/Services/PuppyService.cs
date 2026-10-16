@@ -73,11 +73,14 @@ internal sealed class PuppyService(IUnitOfWork uow, IDateTimeProvider dateTimePr
     {
         // TODO
         var puppies = await uow.PuppyRepository.GetAllAsync(shelter);
-
-        return puppies
-                                                      .Select(p => new PuppyInformation(p.Id, p.Name, p.Adopted))
-                                                      .ToList();
         
+        var result = puppies
+                     .Select(p => new PuppyInformation(p.Id, p.Name, p.Adopted))
+                     .ToList();
+
+        await DelayAsync();
+        
+        return result;
     }
 
     public async ValueTask<Puppy> AdmitPuppyAsync(Shelter shelter, string name, string breed,
@@ -98,7 +101,8 @@ internal sealed class PuppyService(IUnitOfWork uow, IDateTimeProvider dateTimePr
         // TODO
         var puppie =  await uow.PuppyRepository.GetByIdAsync(puppyId);
         
-
+        await DelayAsync();
+        
         return puppie != null ? puppie : new NotFound();
     }
 
