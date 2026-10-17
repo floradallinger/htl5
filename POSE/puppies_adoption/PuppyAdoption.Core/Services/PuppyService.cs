@@ -92,8 +92,21 @@ internal sealed class PuppyService(IUnitOfWork uow, IDateTimeProvider dateTimePr
         // Otherwise, we would get a duplicate primary key error for the shelter when saving the new puppy.
         
         // TODO
-        await ValueTask.CompletedTask;
-        throw new NotImplementedException();
+        
+        var puppy = new Puppy
+        {
+            Name = name,
+            Shelter= shelter,
+            Breed = breed,
+            DateArrived = dateTimeProvider.GetLocalDate(),
+            DateOfBirth = dateOfBirth,
+            Image = imageData
+        };
+        uow.PuppyRepository.Add(puppy);
+        
+        await uow.SaveChangesAsync();
+        await DelayAsync();
+        return puppy;
     }
 
     public async ValueTask<OneOf<Puppy, NotFound>> GetPuppyByIdAsync(int puppyId)
