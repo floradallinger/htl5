@@ -17,6 +17,7 @@ using PuppyAdoption.Shared;
 using PuppyAdoption.Util;
 using PuppyAdoption.Views;
 using PuppyAdoption.Views.Dialogs;
+using Serilog.Core;
 
 namespace PuppyAdoption.ViewModels;
 
@@ -142,13 +143,34 @@ public partial class PuppyDetailsViewModel(
     public async ValueTask InitDetailsAsync(int puppyId, Action puppyAdoptedHandler, Action puppyDeletedHandler)
     {
         // TODO
-        await ValueTask.CompletedTask;
-        throw new NotImplementedException();
+        Loading = true;
+        _puppyAdoptedHandler = puppyAdoptedHandler;
+        _puppyDeletedHandler = puppyDeletedHandler;
+        var pupp = await puppyService.GetPuppyByIdAsync(puppyId);
+        pupp.Switch(puppy =>
+        {
+            Id = puppy.Id;
+            Name = puppy.Name;
+            Breed = puppy.Breed;
+            DateArrived = puppy.DateArrived;
+            DateOfBirth = puppy.DateOfBirth;
+            DateAdopted = puppy.DateAdopted;
+            AdoptedBy = puppy.AdoptedBy ?? String.Empty;
+            SetImage(puppy.Image);
+            Loading = false;
+            toastService.ShowSuccess("Puppy was successfully loaded");
+
+        }, notFound =>
+        {
+            Loading = false;
+            toastService.ShowError($"Puppy with id {puppyId} could not be found");
+        });
     }
 
     private void SetImage(byte[]? imageData)
     {
         // TODO
+        
         throw new NotImplementedException();
     }
 
