@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PuppyAdoption.Shared;
@@ -12,6 +13,13 @@ namespace PuppyAdoption.ViewModels;
 public partial class PuppyListViewModel : ViewModelBase
 {
     // TODO
+    [ObservableProperty]
+    public partial IReadOnlyCollection<PuppyInformation> Puppies { get; set; }
+
+    public PuppyListViewModel(IReadOnlyCollection<PuppyInformation> puppies)
+    {
+        Puppies = puppies;
+    }
 }
 
 public sealed class DesignPuppyListViewModel : PuppyListViewModel;

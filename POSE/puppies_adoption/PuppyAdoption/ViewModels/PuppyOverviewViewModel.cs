@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using PuppyAdoption.Core.Services;
 using PuppyAdoption.Persistence.Model;
 using PuppyAdoption.Shared;
@@ -22,6 +23,22 @@ public partial class PuppyOverviewViewModel(IPuppyService puppyService, ILogger<
     : ShelterOperationViewModel
 {
     // TODO
+    [ObservableProperty]
+    public partial PuppyListViewModel PuppyListViewModel { get; set; } = App.CreateViewModel<PuppyListViewModel>();
+
+    [ObservableProperty]
+    public partial PuppyDetailsViewModel PuppyDetailsViewModel { get; set; }
+        = App.CreateViewModel<PuppyDetailsViewModel>();
+
+    
+
+    public override async ValueTask InitAsync(Shelter shelter)
+    {
+        var pupps = await puppyService.GetAllPuppiesAsync(shelter);
+        logger.LogInformation("Puppies were loaded successfully into the view model");
+        PuppyListViewModel = new PuppyListViewModel(pupps);
+    }
+    
 }
 
 public sealed class DesignPuppyOverviewViewModel()
