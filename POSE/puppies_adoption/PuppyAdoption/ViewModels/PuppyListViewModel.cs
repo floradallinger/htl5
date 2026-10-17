@@ -15,11 +15,8 @@ public partial class PuppyListViewModel : ViewModelBase
     // TODO
     [ObservableProperty]
     public partial IReadOnlyCollection<PuppyInformation> Puppies { get; set; }
-
-    public PuppyListViewModel(IReadOnlyCollection<PuppyInformation> puppies)
-    {
-        Puppies = puppies;
-    }
+    
+    
 }
 
 public sealed class DesignPuppyListViewModel : PuppyListViewModel;

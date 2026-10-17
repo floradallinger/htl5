@@ -36,7 +36,7 @@ public partial class PuppyOverviewViewModel(IPuppyService puppyService, ILogger<
     {
         var pupps = await puppyService.GetAllPuppiesAsync(shelter);
         logger.LogInformation("Puppies were loaded successfully into the view model");
-        PuppyListViewModel = new PuppyListViewModel(pupps);
+        PuppyListViewModel.Puppies = pupps;
     }
     
 }
