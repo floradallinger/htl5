@@ -34,4 +34,5 @@ public partial class PuppyAdmissionViewModel(
     IOptions<Settings> options) : ShelterOperationViewModel
 {
     // TODO
+
 }

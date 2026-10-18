@@ -197,27 +197,11 @@ public partial class PuppyDetailsViewModel(
     {
         // TODO
         var dialog
-            = await dialogService.ShowModalDialogAsync<AdoptPuppyDialogWindow, AdoptPuppyDialogWindowViewModel, AdoptPuppyDialogWindowViewModel.AdoptionInformation?>();
-        if (dialog == null)
-        {
-            return;
-        }
-        var result = await puppyService.AdoptPuppyAsync(Id, dialog.AdoptedByName);
-        result.Switch(success => 
-        { 
-            AdoptedBy = dialog.AdoptedByName;
-            DateAdopted = dialog.AdoptionDate;
-            toastService.ShowSuccess("Puppy was successfully adopted");
-            _puppyAdoptedHandler?.Invoke();
-        },
-        notFound =>
-        {
-            toastService.ShowError("Puppy could not be found");
-        },
-        adopted =>
-        {
-            toastService.ShowError("Puppy was adopted already");
-        });
+            = await dialogService.ShowModalDialogAsync
+                <AdoptPuppyDialogWindow, AdoptPuppyDialogWindowViewModel, 
+                    AdoptPuppyDialogWindowViewModel.AdoptionInformation?>
+                (viewModelConfiguration: SetDialogData);
+        
     }
 
     private void SetDialogData<TResult>(PuppyOperationDialogViewModel<TResult> viewModel)
