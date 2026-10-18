@@ -170,24 +170,67 @@ public partial class PuppyDetailsViewModel(
     private void SetImage(byte[]? imageData)
     {
         // TODO
+        if (imageData == null)
+        {
+            return;
+        }
         
-        throw new NotImplementedException();
+        ImageProcessor imageProcessor = new ImageProcessor(options);
+        var image = imageProcessor.ProcessImage(imageData);
+        using var input = new MemoryStream(image);
+        using var decoded = new Bitmap(input);
+        Image = decoded;
     }
 
     [RelayCommand(CanExecute = nameof(CanBeDeleted))]
     private async Task DeletePuppyAsync()
     {
         // TODO
-        await ValueTask.CompletedTask;
-        throw new NotImplementedException();
+        var dialog
+            = await dialogService.ShowModalDialogAsync<DeletePuppyDialogWindow, DeletePuppyDialogWindowViewModel, bool>();
+        if (!dialog)
+        {
+            return;
+        }
+        var result = await puppyService.DeletePuppyAsync(Id);
+
+        result.Switch(success =>
+                             {
+                                 toastService.ShowSuccess("Puppy was successfully deleted");
+                                 _puppyDeletedHandler?.Invoke();
+                             },
+                             notFound =>
+                             {
+                                 toastService.ShowError("Puppy could not be found");
+                             });
     }
 
     [RelayCommand(CanExecute = nameof(CanBeAdopted))]
     private async Task AdoptPuppyAsync()
     {
         // TODO
-        await ValueTask.CompletedTask;
-        throw new NotImplementedException();
+        var dialog
+            = await dialogService.ShowModalDialogAsync<AdoptPuppyDialogWindow, AdoptPuppyDialogWindowViewModel, AdoptPuppyDialogWindowViewModel.AdoptionInformation?>();
+        if (dialog == null)
+        {
+            return;
+        }
+        var result = await puppyService.AdoptPuppyAsync(Id, dialog.AdoptedByName);
+        result.Switch(success => 
+        { 
+            AdoptedBy = dialog.AdoptedByName;
+            DateAdopted = dialog.AdoptionDate;
+            toastService.ShowSuccess("Puppy was successfully adopted");
+            _puppyAdoptedHandler?.Invoke();
+        },
+        notFound =>
+        {
+            toastService.ShowError("Puppy could not be found");
+        },
+        adopted =>
+        {
+            toastService.ShowError("Puppy was adopted already");
+        });
     }
 
     private void SetDialogData<TResult>(PuppyOperationDialogViewModel<TResult> viewModel)
