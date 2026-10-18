@@ -187,22 +187,9 @@ public partial class PuppyDetailsViewModel(
     {
         // TODO
         var dialog
-            = await dialogService.ShowModalDialogAsync<DeletePuppyDialogWindow, DeletePuppyDialogWindowViewModel, bool>();
-        if (!dialog)
-        {
-            return;
-        }
-        var result = await puppyService.DeletePuppyAsync(Id);
-
-        result.Switch(success =>
-                             {
-                                 toastService.ShowSuccess("Puppy was successfully deleted");
-                                 _puppyDeletedHandler?.Invoke();
-                             },
-                             notFound =>
-                             {
-                                 toastService.ShowError("Puppy could not be found");
-                             });
+            = await dialogService.ShowModalDialogAsync<DeletePuppyDialogWindow, DeletePuppyDialogWindowViewModel, bool>
+                (viewModelConfiguration: SetDialogData);
+        
     }
 
     [RelayCommand(CanExecute = nameof(CanBeAdopted))]
