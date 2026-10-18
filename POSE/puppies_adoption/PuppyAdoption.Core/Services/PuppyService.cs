@@ -92,11 +92,14 @@ internal sealed class PuppyService(IUnitOfWork uow, IDateTimeProvider dateTimePr
         // Otherwise, we would get a duplicate primary key error for the shelter when saving the new puppy.
         
         // TODO
+        var trackedShelter = await uow.ShelterRepository.GetByIdAsync(shelter.Id)
+                             ?? throw new InvalidOperationException($"Shelter with id {shelter.Id} does not exist.");
+
         
         var puppy = new Puppy
         {
             Name = name,
-            Shelter= shelter,
+            Shelter = trackedShelter,
             Breed = breed,
             DateArrived = dateTimeProvider.GetLocalDate(),
             DateOfBirth = dateOfBirth,

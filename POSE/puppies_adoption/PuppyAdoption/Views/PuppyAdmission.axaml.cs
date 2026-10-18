@@ -30,6 +30,7 @@ public partial class PuppyAdmission : ScopedControl
                 if (imageData is not null)
                 {
                     // TODO pass image data to the view model
+                    viewModel.SetImage(imageData);
                 }
             }
         }

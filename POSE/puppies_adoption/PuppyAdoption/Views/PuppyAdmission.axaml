@@ -13,6 +13,19 @@
     <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
         <StackPanel Grid.Column="0" Orientation="Vertical" Margin="10" Spacing="20">
             <!-- TODO input form -->
+            <TextBlock>Name:</TextBlock>
+            <TextBox  Text="{Binding PuppyName}" PlaceholderText="Enter shelter name" />
+            
+            <TextBlock>Breed:</TextBlock>
+            <TextBox Text="{Binding PuppyBreed}" PlaceholderText="Enter shelter name" />
+            
+            <TextBlock>Date of Birth:</TextBlock>
+            <DatePicker SelectedDate="{Binding PuppyDob, Converter={StaticResource LocalDateConverter}}"></DatePicker>
+            <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right" Margin="0,5,0,0">
+                <Button Command="{Binding CreateCommand}" VerticalAlignment="Center">Save</Button>
+            </StackPanel>
+            <ProgressBar Orientation="Horizontal" IsIndeterminate="True" Margin="0,20, 0, 0"
+                         IsVisible="{Binding Processing}" />
         </StackPanel>
         <StackPanel Grid.Column="1" Spacing="10" Margin="10">
             <Border MaxWidth="{Binding MaxImageSize}" MaxHeight="{Binding MaxImageSize}">
@@ -20,5 +33,6 @@
             </Border>
             <Button Content="Pick Image" Click="HandlePickImage" HorizontalAlignment="Center" Margin="0,20" />
         </StackPanel>
+        
     </Grid>
 </util:ScopedControl>
